@@ -1,0 +1,116 @@
+{
+  "textures": [{
+    "image": "textures.png",
+    "frames": [
+      {
+        "filename": "0000",
+        "trimmed": true,
+        "rotated": false,
+        "frame": {
+          "x": 2,
+          "y": 226,
+          "w": 62,
+          "h": 152
+        },
+        "spriteSourceSize": {
+          "x": 0,
+          "y": 19,
+          "w": 62,
+          "h": 152
+        },
+        "sourceSize": {
+          "w": 320,
+          "h": 200
+        }
+      },
+      {
+        "filename": "0010",
+        "trimmed": true,
+        "rotated": false,
+        "frame": {
+          "x": 66,
+          "y": 192,
+          "w": 269,
+          "h": 186
+        },
+        "spriteSourceSize": {
+          "x": 0,
+          "y": 8,
+          "w": 269,
+          "h": 186
+        },
+        "sourceSize": {
+          "w": 320,
+          "h": 200
+        }
+      },
+      {
+        "filename": "1000",
+        "trimmed": true,
+        "rotated": false,
+        "frame": {
+          "x": 2,
+          "y": 3,
+          "w": 287,
+          "h": 187
+        },
+        "spriteSourceSize": {
+          "x": 0,
+          "y": 7,
+          "w": 287,
+          "h": 187
+        },
+        "sourceSize": {
+          "w": 320,
+          "h": 200
+        }
+      },
+      {
+        "filename": "1010",
+        "trimmed": true,
+        "rotated": false,
+        "frame": {
+          "x": 337,
+          "y": 191,
+          "w": 269,
+          "h": 187
+        },
+        "spriteSourceSize": {
+          "x": 0,
+          "y": 7,
+          "w": 269,
+          "h": 187
+        },
+        "sourceSize": {
+          "w": 320,
+          "h": 200
+        }
+      },
+      {
+        "filename": "1111",
+        "trimmed": true,
+        "rotated": false,
+        "frame": {
+          "x": 291,
+          "y": 2,
+          "w": 288,
+          "h": 187
+        },
+        "spriteSourceSize": {
+          "x": 0,
+          "y": 7,
+          "w": 288,
+          "h": 187
+        },
+        "sourceSize": {
+          "w": 320,
+          "h": 200
+        }
+      }
+    ]
+  }],
+  "meta": {
+    "app": "Phaser Editor - Atlas Generator",
+    "version": "2"
+  }
+}
