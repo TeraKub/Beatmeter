@@ -108,7 +108,7 @@ class Scene1 extends Phaser.Scene {
 		}
 		
 		this.scoreText.visible = false;
-		this.levelText = this.add.text(this.game.config.width / 2, 16, 'Уровень: ' + this.level, 
+		this.levelText = this.add.text(this.game.config.width / 2, 30, 'Уровень: ' + this.level, 
 			{ fontSize: '32px', fill: '#fff' })
 			.setOrigin(0.5);
 			
