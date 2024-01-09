@@ -10,9 +10,7 @@ class Scene1 extends Phaser.Scene {
 	_create() {		
         this.clickSound = this.sound.add('clickSound');
 		this.bpm = 80;
-
-		// Инициализация переменных
-		this.setCount = 0;
+		this.score = 0 || 0;
 		
 		// createNotes()
 		this.posX = 137;
@@ -25,11 +23,9 @@ class Scene1 extends Phaser.Scene {
 		this.offsetPointX = -67;
 		this.offsetPointY = 29;
 		this.offset16thNote = 38.7;
-		
-        this.scoreText;
 
         // Текст для отображения счета
-        this.scoreText = this.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#fff' });
+        //this.scoreText = this.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#fff' });
 
         // Кнопка "Тап"
         this.input.on('pointerdown', () => this.placePoint());
@@ -39,9 +35,9 @@ class Scene1 extends Phaser.Scene {
 		this.blackDotStartX = this.posX + this.offsetPointX - 23;
 		this.blackDotFinishX = this.posX + this.offsetPointX + this.offsetPic * 4 - 23;
 		this.blacDotAndClickPointY = 700;
-		this.blackDot = this.add.circle(this.blackDotStartX, this.blacDotAndClickPointY, 10, this.backColor);
-		this.physics.add.existing(this.blackDot);
-		
+		//this.blackDot = this.add.circle(this.blackDotStartX, this.blacDotAndClickPointY, 10, this.backColor);
+		//this.physics.add.existing(this.blackDot);
+		this.isStarting = false;
 		this.startMenu();
 	}
 
@@ -51,13 +47,17 @@ class Scene1 extends Phaser.Scene {
 	}
 
 	update() {
-		this.click();
+		if (this.isStarting) {
+			this.click();
+		}
 	}
 	
 	startMenu() {
 		this.beatNum = 0;
 		const offsetX = 200;
 		const offsetY = 100;
+		this.scoreText = this.add.text(16, 16, 'Score: ' + this.score, { fontSize: '32px', fill: '#fff' });
+		
 		const levelButton1 = this.add.text(this.game.config.width / 2 - offsetX, 100 + offsetY, '1-10', { fontSize: '40px', fill: '#fff' })
             .setOrigin(0.5)
             .setInteractive()
@@ -67,7 +67,7 @@ class Scene1 extends Phaser.Scene {
 				this.level = 1;
 				this.start()
 			});
-		this.scoreLevel1 = this.add.text(this.game.config.width / 2 - offsetX, 130 + offsetY, '0', { fontSize: '40px', fill: '#fff' })
+		this.scoreSet1 = this.add.text(this.game.config.width / 2 - offsetX, 130 + offsetY, '0', { fontSize: '40px', fill: '#fff' })
             .setOrigin(0.5);
 
 		const levelButton2 = this.add.text(this.game.config.width / 2, 100 + offsetY, '11-20', { fontSize: '40px', fill: '#fff' })
@@ -79,7 +79,7 @@ class Scene1 extends Phaser.Scene {
 				this.level = 11;
 				this.start()
 			});
-		this.scoreLevel2 = this.add.text(this.game.config.width / 2, 130 + offsetY, '0', { fontSize: '40px', fill: '#fff' })
+		this.scoreSet2 = this.add.text(this.game.config.width / 2, 130 + offsetY, '0', { fontSize: '40px', fill: '#fff' })
             .setOrigin(0.5);
 
 		const levelButton3 = this.add.text(this.game.config.width / 2 + offsetX, 100 + offsetY , '21-30', { fontSize: '40px', fill: '#fff' })
@@ -91,11 +91,11 @@ class Scene1 extends Phaser.Scene {
 				this.level = 21;
 				this.start()
 			});
-		this.scoreLevel3 = this.add.text(this.game.config.width / 2 + offsetX, 130 + offsetY, '0', { fontSize: '40px', fill: '#fff' })
+		this.scoreSet3 = this.add.text(this.game.config.width / 2 + offsetX, 130 + offsetY, '0', { fontSize: '40px', fill: '#fff' })
             .setOrigin(0.5);
 		
 		this.levelButtons = [levelButton1, levelButton2, levelButton3];
-		this.scoreLevels = [this.scoreLevel1, this.scoreLevel2, this.scoreLevel3];
+		this.scoreSets = [this.scoreSet1, this.scoreSet2, this.scoreSet3];
 	}
 	
 	start() {
@@ -103,11 +103,18 @@ class Scene1 extends Phaser.Scene {
 			btn.destroy();
 		}
 		
-		for (var lvl of this.scoreLevels) {
-			lvl.visible = false;
+		for (var set of this.scoreSets) {
+			set.visible = false;
 		}
 		
+		this.setCount = 0;
+		this.gameObjects = [];
 		this.scoreText.visible = false;
+		this.blackDot = this.add.circle(this.blackDotStartX, this.blacDotAndClickPointY, 10, this.backColor);
+		this.physics.add.existing(this.blackDot);
+		this.gameObjects.push(this.blackDot);
+		
+		this.isStarting = true;
 		this.levelText = this.add.text(this.game.config.width / 2, 30, 'Уровень: ' + this.level, 
 			{ fontSize: '32px', fill: '#fff' })
 			.setOrigin(0.5);
@@ -119,7 +126,7 @@ class Scene1 extends Phaser.Scene {
             .on('pointerdown', () => {
 				this.startGame()
 			});
-		this.score = 1;
+		this.scoreLevel = 1;
 		this.correctScore = 1;
 		this.createNotes();
 		this.createClickPoint();
@@ -134,6 +141,7 @@ class Scene1 extends Phaser.Scene {
 			100, 
 			0x666600
 			);
+		this.gameObjects.push(this.clickLamp);
 
 		if (this.setCount == 2) {
         	this.isGameActive = true;
@@ -166,13 +174,15 @@ class Scene1 extends Phaser.Scene {
 		for (var i = 0; i < 4; i++) {
 			const beat = this.add.text(this.posX - this.offsetBeat + this.offsetPic * i, this.posY - 75, i + 1, { fontSize: '32px', fill: '#fff', fontStyle: 'bold' });
 			this.beats.push(beat);
-			this.add.image(this.posX + this.offsetPic * i, this.posY, 'textures', this.getRandomElement(this.numNotes)).setScale(0.5, 0.5);
+			const note = this.add.image(this.posX + this.offsetPic * i, this.posY, 'textures', this.getRandomElement(this.numNotes)).setScale(0.5, 0.5);
+			this.gameObjects.push(note);
 		}
 		
 		for (var i = 0; i < 4; i++) {
 			const beat = this.add.text(this.posX - this.offsetBeat + this.offsetPic * i, this.posY - 75 + this.offsetY, i + 1, { fontSize: '32px', fill: '#fff', fontStyle: 'bold' });
 			this.beats.push(beat);
-			this.add.image(this.posX + this.offsetPic * i, this.posY + this.offsetY, 'textures', this.getRandomElement(this.numNotes)).setScale(0.5, 0.5);
+			const note = this.add.image(this.posX + this.offsetPic * i, this.posY + this.offsetY, 'textures', this.getRandomElement(this.numNotes)).setScale(0.5, 0.5);
+			this.gameObjects.push(note);
 		}
 		
 		this.createNotePoints();
@@ -269,13 +279,51 @@ class Scene1 extends Phaser.Scene {
 	
         this.isGameActive = false;
 
-		this.scoreText.setText('Score: ' + this.score * this.correctScore);
+		this.scoreText.setText('Score: ' + this.scoreLevel * this.correctScore);
 
         // Выводим сообщение об окончании игры
-        this.add.text(this.game.config.width / 2, this.game.config.height / 2, 'Game Over', 
+        /*this.add.text(this.game.config.width / 2, this.game.config.height / 2, 'Game Over', 
 			{ fontSize: '48px', fill: '#fff' })
-            .setOrigin(0.5);
+            .setOrigin(0.5);*/
+
+		const goToMenu = this.add.text(this.game.config.width / 2 - 100, 800, 'В меню', { fontSize: '40px', fill: '#fff' })
+            .setOrigin(0.5)
+            .setInteractive()
+            .on('pointerdown', () => {
+				this.levelText.destroy();
+				this.clearGameObject();
+				nextLevel.destroy();
+				goToMenu.destroy();
+				this.startMenu();
+			});
+
+		const nextLevel = this.add.text(this.game.config.width / 2 + 100, 800, 'Дальше', { fontSize: '40px', fill: '#fff' })
+            .setOrigin(0.5)
+            .setInteractive()
+            .on('pointerdown', () => {
+				this.clearGameObject();
+				goToMenu.destroy();
+				nextLevel.destroy();
+
+				this.start();
+			});
     }
+
+	clearGameObject() {
+		this.isStarting = false;
+		
+		for (var beat of this.beats) {
+			beat.destroy();
+		}
+		
+		for (var obj of this.gameObjects) {
+			obj.destroy();
+		}
+		
+		for (var point of this.notePoints) {
+			point.destroy();
+		}
+	}
 
     placePoint() {
         if (this.isGameActive) {
@@ -287,6 +335,7 @@ class Scene1 extends Phaser.Scene {
 			
             const tapPoint = this.add.circle(this.blackDot.x, posY + this.offsetPointY, 7, 0xffffff);
             this.physics.add.existing(tapPoint);
+			this.gameObjects.push(tapPoint);
 
             var hitPoint = false;
 			for (const note of this.notePoints) {
