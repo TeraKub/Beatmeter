@@ -1,8 +1,4 @@
 
-// You can write more code here
-
-/* START OF COMPILED CODE */
-
 class Scene1 extends Phaser.Scene {
 	
 	constructor() {
@@ -30,13 +26,7 @@ class Scene1 extends Phaser.Scene {
 		this.offsetPointY = 29;
 		this.offset16thNote = 38.7;
 		
-        //this.line;
-        //this.pointsGroup;
-        //this.score = 0;
         this.scoreText;
-
-        // Создание группы для точек
-        //this.pointsGroup = this.physics.add.group();
 
         // Текст для отображения счета
         this.scoreText = this.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#fff' });
@@ -54,8 +44,6 @@ class Scene1 extends Phaser.Scene {
 		
 		this.startMenu();
 	}
-	
-	/* START-USER-CODE */
 
 	create() {
 		this.backColor = '0x8C77E20';
@@ -237,7 +225,7 @@ class Scene1 extends Phaser.Scene {
 			}
 			
 			const clickPoint = this.add.circle(
-				this.posX + this.offsetPointX + this.offsetPic * i + 12, 
+				this.posX + this.offsetPointX + this.offsetPic * i + 14, 
 				this.blacDotAndClickPointY, 10, this.backColor
 			);
 			this.physics.add.existing(clickPoint);
@@ -324,10 +312,4 @@ class Scene1 extends Phaser.Scene {
         }
     }
 
-
-	/* END-USER-CODE */
 }
-
-/* END OF COMPILED CODE */
-
-// You can write more code here
