@@ -2,9 +2,7 @@
 class Scene1 extends Phaser.Scene {
 	
 	constructor() {
-	
 		super('Scene1');
-		
 	}
 	
 	_create() {		
@@ -119,8 +117,8 @@ class Scene1 extends Phaser.Scene {
 			{ fontSize: '32px', fill: '#fff' })
 			.setOrigin(0.5);
 			
-		this.startButton = this.add.text(this.game.config.width / 2, this.game.config.height / 2, 
-			'СТАРТ', { fontSize: '32px', fill: '#fff' })
+		this.startButton = this.add.text(this.game.config.width / 2, 1000, 
+			'СТАРТ', { fontSize: '40px', fill: '#fff', fontStyle: 'bold' })
             .setOrigin(0.5)
             .setInteractive()
             .on('pointerdown', () => {
@@ -286,7 +284,7 @@ class Scene1 extends Phaser.Scene {
 			{ fontSize: '48px', fill: '#fff' })
             .setOrigin(0.5);*/
 
-		const goToMenu = this.add.text(this.game.config.width / 2 - 100, 800, 'В меню', { fontSize: '40px', fill: '#fff' })
+		const goToMenu = this.add.text(this.game.config.width / 2 - 150, 1000, 'В меню', { fontSize: '40px', fill: '#fff' })
             .setOrigin(0.5)
             .setInteractive()
             .on('pointerdown', () => {
@@ -297,7 +295,7 @@ class Scene1 extends Phaser.Scene {
 				this.startMenu();
 			});
 
-		const nextLevel = this.add.text(this.game.config.width / 2 + 100, 800, 'Дальше', { fontSize: '40px', fill: '#fff' })
+		const nextLevel = this.add.text(this.game.config.width / 2 + 150, 1000, 'Дальше', { fontSize: '40px', fill: '#fff' })
             .setOrigin(0.5)
             .setInteractive()
             .on('pointerdown', () => {
