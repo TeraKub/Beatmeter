@@ -306,6 +306,7 @@ class Scene1 extends Phaser.Scene {
 	}
 
     endGame() {
+		var isDeleteButt = false;
 		for (const point of this.notePoints) {
 			if (point.body) {
 				this.correctScore = 0;
@@ -330,8 +331,7 @@ class Scene1 extends Phaser.Scene {
 			
 			this.levelText.destroy();
 			this.clearGameObject();
-			goToMenu.destroy();
-			nextLevel.destroy();
+			isDeleteButt = true;
 			this.startMenu();
 		}
 
@@ -344,6 +344,7 @@ class Scene1 extends Phaser.Scene {
 				this.clearGameObject();
 				nextLevel.destroy();
 				goToMenu.destroy();
+				isDeleteButt = true;
 				this.startMenu();
 			});
 
@@ -355,12 +356,19 @@ class Scene1 extends Phaser.Scene {
 				this.clearGameObject();
 				goToMenu.destroy();
 				nextLevel.destroy();
+				isDeleteButt = true;
 				this.levelText.destroy();
 				this.level++;
 				this.beatNum = 0;
 
 				this.start();
 			});
+			
+			if (isDeleteButt) {
+				console.log('isDeleteButt')
+				goToMenu.destroy();
+				nextLevel.destroy();
+			}
     }
 
 	clearGameObject() {
