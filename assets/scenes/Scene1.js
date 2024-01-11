@@ -119,7 +119,7 @@ class Scene1 extends Phaser.Scene {
             .setInteractive()
             .on('pointerdown', () => {
 				this.complexityOfLevelNotes = 5;
-				this.bpm = 70;
+				this.bpm = 65;
 				this.level = 31;
 				this.start()
 			});
@@ -136,7 +136,7 @@ class Scene1 extends Phaser.Scene {
             .setOrigin(0.5)
             .setInteractive()
             .on('pointerdown', () => {
-				this.complexityOfLevelNotes = 7;
+				this.complexityOfLevelNotes = 5;
 				this.bpm = 60;
 				this.level = 41;
 				this.start()
@@ -154,7 +154,7 @@ class Scene1 extends Phaser.Scene {
             .setOrigin(0.5)
             .setInteractive()
             .on('pointerdown', () => {
-				this.complexityOfLevelNotes = 9;
+				this.complexityOfLevelNotes = 7;
 				this.bpm = 55;
 				this.level = 51;
 				this.start()
@@ -207,6 +207,7 @@ class Scene1 extends Phaser.Scene {
 		this.quartPauses = [];
 		this.quartNotes = [];
 		this.eightNotes = [];
+		this.eightNotAndPaus = [];
 		this.createNotes();
 		this.createClickPoint();
 	}
@@ -290,6 +291,12 @@ class Scene1 extends Phaser.Scene {
 		if (note == '1010') {
 			this.eightNotes.push(note);
 		}
+		if (note == '0010') {
+			this.eightNotAndPaus.push(note);
+		}
+		
+		console.log(this.checkSet);
+		console.log(note);
 		
 		while (this.checkSet == 0 && this.quartPauses.length > 3 && note == '0000' ||
 			this.checkSet == 1 && this.quartPauses.length > 2 && note == '0000' ||
@@ -299,10 +306,13 @@ class Scene1 extends Phaser.Scene {
 			this.checkSet > 2 && this.quartNotes.length > 1 && note == '1000' ||
 			this.checkSet == 2 && this.eightNotes.length > 3 && note == '1010' ||
 			this.checkSet == 3 && this.eightNotes.length > 2 && note == '1010' ||
-			this.checkSet > 3 && this.eightNotes.length > 1 && note == '1010'
+			this.checkSet > 3 && this.eightNotes.length > 1 && note == '1010' ||
+			this.checkSet == 3 && this.eightNotAndPaus.length > 0 && note == '0010'
 			) {
 			note = arr[Math.floor(Math.random() * this.complexityOfLevelNotes)];
+			console.log('+');
 		}
+		console.log('--- ', note, ' ---')
 		
 		this.randomNotes.push(note);
 	    return note;
