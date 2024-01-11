@@ -10,7 +10,7 @@ class Scene1 extends Phaser.Scene {
 		
 		// Загружаем очки с сервера
 		this.score = 0;
-		this.scoreSets = [0, 0, 0];
+		this.scoreSets = [0, 0, 0, 0, 0, 0];
 		
 		// createNotes()
 		this.posX = 137;
@@ -52,7 +52,7 @@ class Scene1 extends Phaser.Scene {
 		this.beatNum = 0;
 		this.scoreSet = 0;
 		const offsetX = 200;
-		const offsetY = 100;
+		var offsetY = 100;
 		this.scoreText = this.add.text(16, 16, 'Очки: ' + this.score, 
 			{ fontSize: '32px', fill: '#fff' });
 		
@@ -109,9 +109,67 @@ class Scene1 extends Phaser.Scene {
 			this.scoreSets[2], 
 			{ fontSize: '40px', fill: '#fff' })
             .setOrigin(0.5);
+
+		offsetY = 300;
+
+		const levelButton4 = this.add.text(
+			this.game.config.width / 2 - offsetX, 
+			100 + offsetY, '31-40', { fontSize: '40px', fill: '#fff' })
+            .setOrigin(0.5)
+            .setInteractive()
+            .on('pointerdown', () => {
+				this.complexityOfLevelNotes = 5;
+				this.bpm = 70;
+				this.level = 31;
+				this.start()
+			});
+		this.scoreTextSet4 = this.add.text(
+			this.game.config.width / 2 - offsetX, 
+			130 + offsetY, 
+			this.scoreSets[3], 
+			{ fontSize: '40px', fill: '#fff' })
+            .setOrigin(0.5);
+
+		const levelButton5 = this.add.text(
+			this.game.config.width / 2, 
+			100 + offsetY, '41-50', { fontSize: '40px', fill: '#fff' })
+            .setOrigin(0.5)
+            .setInteractive()
+            .on('pointerdown', () => {
+				this.complexityOfLevelNotes = 7;
+				this.bpm = 60;
+				this.level = 41;
+				this.start()
+			});
+		this.scoreTextSet5 = this.add.text(
+			this.game.config.width / 2, 
+			130 + offsetY, 
+			this.scoreSets[4], 
+			{ fontSize: '40px', fill: '#fff' })
+            .setOrigin(0.5);
+
+		const levelButton6 = this.add.text(
+			this.game.config.width / 2 + offsetX, 
+			100 + offsetY , '51-60', { fontSize: '40px', fill: '#fff' })
+            .setOrigin(0.5)
+            .setInteractive()
+            .on('pointerdown', () => {
+				this.complexityOfLevelNotes = 9;
+				this.bpm = 55;
+				this.level = 51;
+				this.start()
+			});
+		this.scoreTextSet6 = this.add.text(
+			this.game.config.width / 2 + offsetX, 
+			130 + offsetY, 
+			this.scoreSets[5], 
+			{ fontSize: '40px', fill: '#fff' })
+            .setOrigin(0.5);
 		
-		this.levelButtons = [levelButton1, levelButton2, levelButton3];
-		this.scoreTextSets = [this.scoreTextSet1, this.scoreTextSet2, this.scoreTextSet3];
+		this.levelButtons = [levelButton1, levelButton2, levelButton3, 
+			levelButton4, levelButton5, levelButton6];
+		this.scoreTextSets = [this.scoreTextSet1, this.scoreTextSet2, this.scoreTextSet3, 
+			this.scoreTextSet4, this.scoreTextSet5, this.scoreTextSet6];
 	}
 	
 	start() {
