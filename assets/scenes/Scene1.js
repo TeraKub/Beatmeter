@@ -146,6 +146,8 @@ class Scene1 extends Phaser.Scene {
 			});
 		this.scoreLevel = 1;
 		this.correctScore = 1;
+		this.quartPauses = [];
+		this.quartNotes = [];
 		this.createNotes();
 		this.createClickPoint();
 	}
@@ -185,7 +187,7 @@ class Scene1 extends Phaser.Scene {
     }
 
 	createNotes() {
-		this.numNotes = ['0000', '1000', '1010', '0010'];
+		this.numNotes = ['0000', '1000', '1010', '0010', '1111', '1110', '1011', '1101', '0111'];
 		this.randomNotes = [];
 		this.beats = [];
 
@@ -219,7 +221,23 @@ class Scene1 extends Phaser.Scene {
 	}
 	
 	getRandomElement(arr) {
-		const note = arr[Math.floor(Math.random() * this.complexityOfLevelNotes)];
+		var note = arr[Math.floor(Math.random() * this.complexityOfLevelNotes)];
+		if (note == '0000') {
+			this.quartPauses.push(note);
+		}
+		if (note == '1000') {
+			this.quartNotes.push(note);
+		}
+		
+		while (this.checkSet == 0 && this.quartPauses.length > 3 && note == '0000' ||
+			this.checkSet == 1 && this.quartPauses.length > 2 && note == '0000' ||
+			this.checkSet > 1 && this.quartPauses.length > 1 && note == '0000' ||
+			this.checkSet == 1 && this.quartNotes.length > 3 && note == '1000' ||
+			this.checkSet == 2 && this.quartNotes.length > 2 && note == '1000' ||
+			this.checkSet > 3 && this.quartNotes.length > 1 && note == '1000') {
+			note = arr[Math.floor(Math.random() * this.complexityOfLevelNotes)];
+		}
+		
 		this.randomNotes.push(note);
 	    return note;
 	}
@@ -233,8 +251,8 @@ class Scene1 extends Phaser.Scene {
 		}
 		
 		var markerOfPoints2 = '';
-		for (var j = 4; j < 8; j++) {
-			markerOfPoints2 += this.randomNotes[j];
+		for (var i = 4; i < 8; i++) {
+			markerOfPoints2 += this.randomNotes[i];
 		}
 		
 		for (var i = 0; i < 16; i++) {
