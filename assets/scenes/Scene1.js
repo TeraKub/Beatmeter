@@ -148,6 +148,7 @@ class Scene1 extends Phaser.Scene {
 		this.correctScore = 1;
 		this.quartPauses = [];
 		this.quartNotes = [];
+		this.eightNotes = [];
 		this.createNotes();
 		this.createClickPoint();
 	}
@@ -228,13 +229,20 @@ class Scene1 extends Phaser.Scene {
 		if (note == '1000') {
 			this.quartNotes.push(note);
 		}
+		if (note == '1010') {
+			this.eightNotes.push(note);
+		}
 		
 		while (this.checkSet == 0 && this.quartPauses.length > 3 && note == '0000' ||
 			this.checkSet == 1 && this.quartPauses.length > 2 && note == '0000' ||
 			this.checkSet > 1 && this.quartPauses.length > 1 && note == '0000' ||
 			this.checkSet == 1 && this.quartNotes.length > 3 && note == '1000' ||
 			this.checkSet == 2 && this.quartNotes.length > 2 && note == '1000' ||
-			this.checkSet > 3 && this.quartNotes.length > 1 && note == '1000') {
+			this.checkSet > 2 && this.quartNotes.length > 1 && note == '1000' ||
+			this.checkSet == 2 && this.eightNotes.length > 3 && note == '1010' ||
+			this.checkSet == 3 && this.eightNotes.length > 2 && note == '1010' ||
+			this.checkSet > 3 && this.eightNotes.length > 1 && note == '1010'
+			) {
 			note = arr[Math.floor(Math.random() * this.complexityOfLevelNotes)];
 		}
 		
@@ -322,6 +330,7 @@ class Scene1 extends Phaser.Scene {
 
     endGame() {
 		for (const point of this.notePoints) {
+			point.setFillStyle(0xff0000);
 			if (point.body) {
 				this.correctScore = 0;
 			}
