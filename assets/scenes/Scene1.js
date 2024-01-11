@@ -8,11 +8,8 @@ class Scene1 extends Phaser.Scene {
         this.clickSound = this.sound.add('clickSound');
 		this.bpm = 80;
 		
+		// Загружаем очки с сервера
 		this.score = 0;
-		
-		/*this.scoreSet1 = 1;
-		this.scoreSet2 = 2;
-		this.scoreSet3 = 3;*/
 		this.scoreSets = [0, 0, 0];
 		
 		// createNotes()
@@ -41,7 +38,7 @@ class Scene1 extends Phaser.Scene {
 	}
 
 	create() {
-		this.backColor = '0x8C77E20';
+		this.backColor = '0x8C77E2';
 		this._create();
 	}
 
@@ -56,7 +53,7 @@ class Scene1 extends Phaser.Scene {
 		this.scoreSet = 0;
 		const offsetX = 200;
 		const offsetY = 100;
-		this.scoreText = this.add.text(16, 16, 'Score: ' + this.score, 
+		this.scoreText = this.add.text(16, 16, 'Очки: ' + this.score, 
 			{ fontSize: '32px', fill: '#fff' });
 		
 		const levelButton1 = this.add.text(
@@ -89,7 +86,8 @@ class Scene1 extends Phaser.Scene {
 				this.start()
 			});
 		this.scoreTextSet2 = this.add.text(
-			this.game.config.width / 2, 130 + offsetY, 
+			this.game.config.width / 2, 
+			130 + offsetY, 
 			this.scoreSets[1], 
 			{ fontSize: '40px', fill: '#fff' })
             .setOrigin(0.5);
@@ -126,7 +124,6 @@ class Scene1 extends Phaser.Scene {
 		}
 		
 		this.checkSet = Math.floor((this.level - 1) / 10);
-		//console.log('checkSet: ', this.checkSet);
 		
 		this.setCount = 0;
 		this.gameObjects = [];
@@ -306,7 +303,6 @@ class Scene1 extends Phaser.Scene {
 	}
 
     endGame() {
-		var isDeleteButt = false;
 		for (const point of this.notePoints) {
 			if (point.body) {
 				this.correctScore = 0;
@@ -315,24 +311,24 @@ class Scene1 extends Phaser.Scene {
 	
         this.isGameActive = false;
 
-		//this.scoreText.setText('Score: ' + this.scoreLevel * this.correctScore);
 		this.scoreSet += this.scoreLevel * this.correctScore;
 
 		if (this.level % 10 == 0) {
-			//console.log('scoreSet: ', this.scoreSet);
-			//console.log('checkSet: ', this.checkSet);
 			if (this.scoreSet > this.scoreSets[this.checkSet]) {
 				this.scoreSets[this.checkSet] = this.scoreSet;
-				//console.log('scoreSet_n: ', this.scoreSets[this.checkSet]);
 			}
 			
-			//console.log('scoreSets: ', this.scoreSets);
-			//console.log(this.scoreSets[0], this.scoreSets[1], this.scoreSets[2]);
+			var score = 0;
+			for (var set of this.scoreSets) {
+				score += set;
+			}
+			this.score = score;
 			
-			this.levelText.destroy();
+			this.sendScoreToFunction();
 			this.clearGameObject();
-			isDeleteButt = true;
+
 			this.startMenu();
+			return;
 		}
 
 		const goToMenu = this.add.text(this.game.config.width / 2 - 150, 1000, 'В меню', 
@@ -340,11 +336,10 @@ class Scene1 extends Phaser.Scene {
             .setOrigin(0.5)
             .setInteractive()
             .on('pointerdown', () => {
-				this.levelText.destroy();
 				this.clearGameObject();
 				nextLevel.destroy();
 				goToMenu.destroy();
-				isDeleteButt = true;
+
 				this.startMenu();
 			});
 
@@ -356,19 +351,11 @@ class Scene1 extends Phaser.Scene {
 				this.clearGameObject();
 				goToMenu.destroy();
 				nextLevel.destroy();
-				isDeleteButt = true;
-				this.levelText.destroy();
 				this.level++;
 				this.beatNum = 0;
 
 				this.start();
 			});
-			
-			if (isDeleteButt) {
-				console.log('isDeleteButt')
-				goToMenu.destroy();
-				nextLevel.destroy();
-			}
     }
 
 	clearGameObject() {
@@ -385,6 +372,8 @@ class Scene1 extends Phaser.Scene {
 		for (var point of this.notePoints) {
 			point.destroy();
 		}
+		
+		this.levelText.destroy();
 	}
 
     placePoint() {
@@ -413,14 +402,14 @@ class Scene1 extends Phaser.Scene {
                 tapPoint.setFillStyle(0xff0000);
 				this.correctScore = 0;
             }
-
-	        /*if (tapPoint.body) {
-	            tapPoint.body.setVelocityX(300);
-	            this.pointsGroup.add(tapPoint);
-	        } else {
-	            console.error("tapPoint не является объектом физики.");
-	        }*/
         }
     }
+
+	sendScoreToFunction() {
+		
+		// Здесь будет логика отправки очков в облачную функцию
+		// для последующей передачи на сервер !!!
+		
+	}
 
 }
